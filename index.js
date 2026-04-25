@@ -3,7 +3,9 @@ let integer_array_copy = [];
 let current_iteration = 0;
 let running_flag = false;
 
-const speedSlider = document.getElementById('speed_slider');
+document.addEventListener('DOMContentLoaded', () => {
+    const speedSlider = document.getElementById('speed_slider');
+});
 let currentSpeed = speedSlider.max - speedSlider.value;
 
 function toggle_insert(isDisabled) {
