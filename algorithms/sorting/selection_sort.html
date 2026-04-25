@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Algorithms</title>
+    <link rel="stylesheet" href="../../lib/site.css">
+</head>
+
+<body>
+    <div class="page">
+
+        <header class="navbar">
+            <div class="navbar_buttons">
+                <input type="text" id="text_field" name="numbers" placeholder="Enter an integer...">
+                <button id="insert_number">Insert</button>
+                <button id="delete_array">Delete Array</button>
+                <button id="continue_algorithm">Next Step</button>
+                <button id="reset_array">Restart</button>
+            </div>
+            <div class="scroll-container">
+                <label for="speed_slider">Animation Speed:</label>
+                <input type="range" id="speed_slider" min="100" max="2000" value="800" step="100">
+            </div>
+        </header>
+
+        <div class="canvas"></div>
+
+        <footer class="credits">
+            <hr>
+            <div>OpenAlgorithms by Eric Ryan Montgomery</div>
+        </footer>
+
+    </div>
+    <script type="module" src="../../lib/functions.js" defer></script>
+    <script type="module" src="../../lib/animations.js" defer></script>
+    <script type="module" src="selection_sort.js" defer></script>
+</body>
+</html>
