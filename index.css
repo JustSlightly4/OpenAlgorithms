@@ -1,0 +1,79 @@
+/* { border: 1px solid red !important; }*/
+
+body {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+hr {
+    width: 100%;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    background-color: gray;
+    padding: 5px;
+}
+
+.navbar_buttons {
+    display: flex;
+    flex-direction: row;
+    margin: 0px 8px;
+    gap: 5px;
+}
+
+.canvas {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center; /*x-axis*/
+    align-items: center; /*y-axis*/
+    margin: 0px 8px;
+    gap: 5px;
+}
+
+.credits {
+    display: flex;
+    flex-direction: column;
+    margin: 0px 8px 8px 8px;
+}
+
+.number-box {
+    width: 50px;
+    height: 50px;
+    background-color: crimson;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: transform 0.5s ease;
+    position: relative;
+}
+
+.highlight_yellow {
+    background-color: #f1c40f !important; /* A nice yellow */
+    transform: scale(1.1); /* Slightly grow the box to emphasize it */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.highlight_red {
+    background-color: red !important; /* A nice yellow */
+    transform: scale(1.1); /* Slightly grow the box to emphasize it */
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.scroll-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
