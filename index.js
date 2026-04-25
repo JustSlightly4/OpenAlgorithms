@@ -1,8 +1,24 @@
 let integer_array = [];
 let integer_array_copy = [];
+let current_iteration = 0;
+let running_flag = false;
 
 const speedSlider = document.getElementById('speed_slider');
 let currentSpeed = speedSlider.max - speedSlider.value;
+
+function toggle_insert(isDisabled) {
+    const btn = document.getElementById('insert_number');
+    btn.disabled = isDisabled;
+}
+
+function toggle_controls(isDisabled, buttonIds = []) {
+    buttonIds.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+            btn.disabled = isDisabled;
+        }
+    });
+}
 
 function swap(idxA, idxB) {
     let temp = integer_array[idxA];
@@ -10,30 +26,28 @@ function swap(idxA, idxB) {
     integer_array[idxB] = temp;
 }
 
-async function selection_sort() {
-    for (let i = 0; i < integer_array.length; i++) {
-        let min_index = i;
-        await mark_minimum(min_index);
+async function selection_sort_single() {
+    let min_index = current_iteration;
+    await mark_minimum(min_index);
 
-        for (let j = i + 1; j < integer_array.length; j++) {
-            await highlightandUnhighlight(j);
-            // Compare the scanning element (j) with the best candidate (min_index)
-            if (integer_array[j] < integer_array[min_index]) {
-                let prev_minimum = min_index;
-                min_index = j;
-                await mark_minimum(min_index);
-                await unmark_minimum(prev_minimum);
-            }
+    for (let j = current_iteration + 1; j < integer_array.length; j++) {
+        await highlightandUnhighlight(j);
+        // Compare the scanning element (j) with the best candidate (min_index)
+        if (integer_array[j] < integer_array[min_index]) {
+            let prev_minimum = min_index;
+            min_index = j;
+            await mark_minimum(min_index);
+            await unmark_minimum(prev_minimum);
         }
+    }
 
-        // Only swap if a new minimum was actually found
-        if (min_index !== i) {
-            // We MUST 'await' here, otherwise the loop keeps running 
-            // while the boxes are still sliding!
-            await swap_and_render(i, min_index); //will clean the board
-        } else {
-            await unmark_minimum(min_index);
-        }
+    // Only swap if a new minimum was actually found
+    if (min_index !== current_iteration) {
+        // We MUST 'await' here, otherwise the loop keeps running 
+        // while the boxes are still sliding!
+        await swap_and_render(current_iteration, min_index); //will clean the board
+    } else {
+        await unmark_minimum(min_index);
     }
     console.log("Sorting complete!", integer_array);
 }
@@ -124,24 +138,38 @@ document.getElementById('insert_number').addEventListener('click', function() {
         integer_array.push(new_value);
         integer_array_copy.push(new_value);
         render_array_last();
-        document.getElementById('display_area').innerText = JSON.stringify(integer_array);
     }
 });
 
 document.getElementById('delete_array').addEventListener('click', function() {
     integer_array.length = 0;
     integer_array_copy.length = 0;
+    current_iteration = 0;
+    toggle_insert(false);
     render_array();
 });
 
 document.getElementById('reset_array').addEventListener('click', function() {
     integer_array = [...integer_array_copy];
+    current_iteration = 0;
+    toggle_insert(false);
     render_array();
 });
 
-document.getElementById('start_algorithm').addEventListener('click', async function() {
-    await selection_sort();
-    render_array();
+document.getElementById('continue_algorithm').addEventListener('click', async function() {
+    if (running_flag === false && current_iteration < integer_array.length) {
+        const buttons = ['continue_algorithm', 'delete_array', 'reset_array'];
+
+        running_flag = true;
+        toggle_controls(true, buttons);
+        toggle_insert(true);
+        await selection_sort_single();
+        ++current_iteration;
+        render_array();
+        running_flag = false;
+        this.disabled = false;
+        toggle_controls(false, buttons);
+    }
 });
 
 speedSlider.addEventListener('input', (event) => {
